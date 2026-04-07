@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_movie_theater_user,movie.theater user,model_movie_theater,cinema_user_group,1,1,1,1
+access_theater_room_user,theater.room user,model_theater_room,cinema_manager_group,1,1,1,1
+access_movie_showing_user,movie.showing user,model_movie_showing,cinema_user_group,1,1,1,1
+access_cinema_movie_user,cinema.movie user,model_cinema_movie,cinema_manager_group,1,1,1,1
+access_customer_review_user,customer.review user,model_customer_review,cinema_manager_group,1,1,1,1
+access_movie_showing_line_user,movie.showing.line user,model_movie_showing_line,cinema_user_group,1,1,1,1
+access_movie_api_comparator_user,movie.api.comparator user,model_movie_api_comparator,cinema_user_group,1,1,1,1
+access_movie_api_comparator_line_user,movie.api.comparator.line user,model_movie_api_comparator_line,cinema_user_group,1,1,1,1
