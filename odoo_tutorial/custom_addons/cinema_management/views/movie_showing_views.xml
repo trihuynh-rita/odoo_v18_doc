@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- list View -->
+    <record id="view_movie_showing_list" model="ir.ui.view">
+        <field name="name">movie.showing.list</field>
+        <field name="model">movie.showing</field>
+        <field name="arch" type="xml">
+            <list string="Movie Showings">
+                <field name="movie_id"/>
+                <field name="movie_theater_id"/>
+                <field name="theater_room_id"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="seats_number"/>
+                <field name="total_attendees"/>
+                <field name="is_past"/>
+                <field name="price"/>
+                <field name="status"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_movie_showing_form" model="ir.ui.view">
+        <field name="name">movie.showing.form</field>
+        <field name="model">movie.showing</field>
+        <field name="arch" type="xml">
+            <form string="Movie Showing">
+                <sheet>
+                    <header>
+                        <field name="status" widget="statusbar" options="{'clickable': '1'}"/>
+                    </header>
+                    <group>
+                        <field name="movie_theater_id"/>
+                        <field name="movie_id"/>
+                        <field name="theater_room_id" domain="[('movie_theater_id', '=', movie_theater_id)]"/>
+                        <field name="date_start" widget="daterange" options="{'end_date_field': 'date_end'}" string="Schedule"/>
+                        <field name="date_end" invisible="1"/>
+                        <field name="seats_number" readonly="1"/>
+                        <field name="total_attendees" readonly="1"/>
+                        <field name="is_past" readonly="1"/>
+                        <field name="price"/>
+                    </group>
+                    <notebook>
+                        <page string="Attendees">
+                            <field name="attendee_ids"/>
+                        </page>
+                        <page string="Tickets">
+                            <field name="ticket_line_ids">
+                                <list>
+                                    <field name="customer_id"/>
+                                    <field name="ticket_price"/>
+                                    <field name="sale_order_id"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_movie_showing" model="ir.actions.act_window">
+        <field name="name">Movie Showings</field>
+        <field name="res_model">movie.showing</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_movie_showing" name="Movie Showings"
+              parent="menu_movie_root" action="action_movie_showing" sequence="4"/>
+</odoo>

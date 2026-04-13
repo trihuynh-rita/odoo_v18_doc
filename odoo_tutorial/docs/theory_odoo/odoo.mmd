@@ -1,0 +1,50 @@
+flowchart TD
+    subgraph Tier1 [Tang Trinh Dien - Client / Presentation Tier]
+        Web[Web Client - OWL Framework, QWeb, JS]
+        App[Mobile App - Android / iOS]
+        Ext[External Systems - Postman, Custom App]
+    end
+
+    subgraph Tier2 [Tang Ung Dung - Odoo Server / Logic Tier]
+        direction TB
+        
+        subgraph Network [Giao tiep mang - Network Interface]
+            WSGI[WSGI Server - Werkzeug]
+            RPC[RPC Servers - XML-RPC, JSON-RPC]
+        end
+
+        subgraph Core [Loi xu ly - Core Framework]
+            Controller[Controllers - Xu ly Web / API]
+            Security[Security Engine - Access Rights, Record Rules]
+            ORM[Odoo ORM - Object-Relational Mapping]
+        end
+
+        subgraph Addons [Cac Module - Odoo Addons]
+            Base[Base Module]
+            Sale[Sale / Accounting / ...]
+            Custom[Custom Modules - vd: cinema_manager]
+        end
+        
+        WSGI --> Controller
+        RPC --> Security
+        Controller --> Security
+        Security --> ORM
+        ORM <--> Custom
+        ORM <--> Sale
+        ORM <--> Base
+    end
+
+    subgraph Tier3 [Tang Du Lieu - Database Tier]
+        Postgres[(PostgreSQL - Database)]
+        FileStore[File Store - Luu tru anh, PDF, logs]
+    end
+
+    %% Mui ten ket noi 3 tang
+    Web -- HTTP / JSON-RPC --> WSGI
+    Web -- JSON-RPC --> RPC
+    App -- JSON-RPC --> RPC
+    Ext -- XML-RPC / REST HTTP --> WSGI
+    Ext -- XML-RPC --> RPC
+
+    ORM -- Thuc thi lenh SQL --> Postgres
+    ORM -- Luu / Doc file --> FileStore

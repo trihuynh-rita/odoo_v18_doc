@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="hrm_mvp.RitaChatbot" owl="1">
+        <div class="rita-chatbot">
+            <div class="rita-header">
+                <div class="title">Rita Chatbot</div>
+                <div class="subtitle">HRM Assistant</div>
+            </div>
+
+            <div class="chat-history" t-ref="scrollRef">
+                <t t-foreach="state.messages" t-as="msg" t-key="msg.id">
+                    <div t-attf-class="chat-bubble {{ msg.role === 'user' ? 'bubble-user' : 'bubble-bot' }}">
+                        <t t-if="msg.role === 'bot'">
+                            <t t-out="msg.content" />
+                        </t>
+                        <t t-else="">
+                            <t t-esc="msg.content" />
+                        </t>
+                    </div>
+                </t>
+                <t t-if="state.loading">
+                    <div class="chat-bubble bubble-bot typing">Rita đang trả lời...</div>
+                </t>
+            </div>
+
+            <div class="chat-input">
+                <input
+                    type="text"
+                    t-model="state.inputText"
+                    t-on-keyup="onKeyup"
+                    placeholder="Hỏi Rita về nhân sự..."
+                />
+                <button t-on-click="sendMessage">Gửi</button>
+            </div>
+        </div>
+    </t>
+</templates>

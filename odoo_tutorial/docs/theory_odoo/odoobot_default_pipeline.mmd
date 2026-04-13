@@ -1,0 +1,30 @@
+sequenceDiagram
+    autonumber
+    actor User as Người dùng
+    participant UI as Giao diện (OWL Framework)
+    participant Controller as Odoo Controller (RPC)
+    participant Channel as Model: discuss.channel
+    participant Bot as Model: mail.bot
+    participant DB as Database (PostgreSQL)
+    participant Bus as Bus Service (WebSocket)
+
+    User->>UI: Nhập tin nhắn & Nhấn Gửi
+    UI->>Controller: Gửi HTTP POST / JSON-RPC (Nội dung, channel_id)
+    
+    Controller->>Channel: Gọi hàm message_post()
+    Channel->>DB: INSERT INTO mail_message (Lưu tin nhắn Người dùng)
+    
+    rect rgb(240, 240, 240)
+        Note right of Channel: Xử lý logic OdooBot mặc định
+        Channel->>Bot: Kiểm tra điều kiện & gọi _get_answer()
+        Bot-->>Channel: Trả về chuỗi phản hồi (if/else logic)
+    end
+    
+    Channel->>DB: INSERT INTO mail_message (Lưu tin nhắn của Bot)
+    
+    Channel->>Bus: Gửi tín hiệu (Event) có tin nhắn mới
+    Bus-->>UI: Đẩy dữ liệu Real-time qua WebSocket / Longpolling
+    
+    UI->>UI: Cập nhật State & Render lại Virtual DOM
+    UI-->>User: Hiển thị bong bóng/danh sách tin nhắn mới
+    

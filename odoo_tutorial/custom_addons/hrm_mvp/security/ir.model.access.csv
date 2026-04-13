@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hrm_employee,access_hrm_employee,model_hrm_employee,base.group_user,1,1,1,1
+access_hrm_history_work,access_hrm_history_work,model_hrm_history_work,base.group_user,1,1,1,1

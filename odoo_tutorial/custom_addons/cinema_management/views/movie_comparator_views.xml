@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Wizard View -->
+    <record id="view_movie_api_comparator_form" model="ir.ui.view">
+        <field name="name">movie.api.comparator.form</field>
+        <field name="model">movie.api.comparator</field>
+        <field name="arch" type="xml">
+            <form string="Movie API Comparison">
+                <header>
+                    <button name="action_fetch_from_api" string="Fetch Updated Data" type="object" class="btn-primary" icon="fa-refresh"/>
+                    <button name="action_import_selected" string="Import All New Movies" type="object" class="btn-success" icon="fa-download"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Compare External Movie Data (FastAPI)</h1>
+                        <p class="text-muted">
+                            This tool fetches the latest movies from the external API (port 8000). 
+                            It shows comparison data including <strong>Price</strong>, which is NOT stored in Odoo.
+                        </p>
+                    </div>
+                    
+                    <field name="line_ids">
+                        <list create="false" delete="false" edit="false" decoration-success="status == 'exists'" decoration-warning="status == 'new'">
+                            <field name="name"/>
+                            <field name="category" optional="show"/>
+                            <field name="rating" optional="hide"/>
+                            <field name="remote_price" string="External Price ($)"/>
+                            <field name="odoo_movie_id" widget="many2one_avatar_user" string="Odoo Movie Record"/>
+                            <field name="status" widget="badge" decoration-success="status == 'exists'" decoration-warning="status == 'new'"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Kanban View for Comparison Lines (Catalog-like) -->
+    <record id="view_movie_api_comparator_line_kanban" model="ir.ui.view">
+        <field name="name">movie.api.comparator.line.kanban</field>
+        <field name="model">movie.api.comparator.line</field>
+        <field name="arch" type="xml">
+            <kanban create="false">
+                <field name="name"/>
+                <field name="category"/>
+                <field name="remote_price"/>
+                <field name="average_score"/>
+                <field name="status"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="o_kanban_record_details">
+                            <div class="o_kanban_record_top">
+                                <strong class="o_kanban_record_title">
+                                    <field name="name"/>
+                                </strong>
+                                <span class="float-end badge rounded-pill" t-att-class="'text-bg-' + (record.status.raw_value == 'exists' ? 'success' : 'warning')">
+                                    <field name="status"/>
+                                </span>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-6">
+                                    <span class="text-muted"><i class="fa fa-tag" title="Category"/> <field name="category"/></span>
+                                </div>
+                                <div class="col-6 text-end text-primary font-weight-bold">
+                                    <field name="remote_price"/>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <field name="average_score" widget="priority"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Detailed Form for Catalog Session -->
+    <record id="view_movie_api_comparator_catalog_form" model="ir.ui.view">
+        <field name="name">movie.api.comparator.form.catalog</field>
+        <field name="model">movie.api.comparator</field>
+        <field name="arch" type="xml">
+            <form string="External Catalog" create="false">
+                <header>
+                    <button name="action_fetch_from_api" string="Refresh Data" type="object" class="btn-primary" icon="fa-refresh"/>
+                    <button name="action_import_selected" string="Import Missing Movies" type="object" class="btn-success" icon="fa-download"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Online Movie Catalog</h1>
+                        <p class="text-muted">
+                            Browsing live movies from external FastAPI service.
+                        </p>
+                    </div>
+                    <notebook>
+                        <page string="Kanban Board" name="kanban_view">
+                            <field name="line_ids" mode="kanban" context="{'default_wizard_id': id}"/>
+                        </page>
+                        <page string="Table List (Comparison)" name="list_view">
+                            <field name="line_ids">
+                                <list create="false" delete="false" edit="false">
+                                    <field name="name"/>
+                                    <field name="category"/>
+                                    <field name="remote_price" string="Ext. Price"/>
+                                    <field name="average_score" widget="float"/>
+                                    <field name="status" widget="badge" decoration-success="status == 'exists'" decoration-warning="status == 'new'"/>
+                                    <field name="odoo_movie_id" string="In Odoo System"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Server Action to open a fresh catalog view -->
+    <record id="action_server_external_catalog" model="ir.actions.server">
+        <field name="name">Movie External Catalog</field>
+        <field name="model_id" ref="model_movie_api_comparator"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = model.action_view_external_catalog()
+        </field>
+    </record>
+
+    <!-- Legacy Wizard Action -->
+    <record id="action_movie_api_comparator" model="ir.actions.act_window">
+        <field name="name">Compare External Movies</field>
+        <field name="res_model">movie.api.comparator</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu Item for Catalog -->
+    <menuitem id="menu_external_movie_catalog" name="Global Movie Catalog"
+              parent="menu_movie_root" action="action_server_external_catalog" sequence="10"/>
+
+    <!-- Menu Item under Movies (Sub-menu) -->
+    <menuitem id="menu_movie_api_comparator" name="Sync External"
+              parent="menu_movie_root" action="action_movie_api_comparator" sequence="20"/>
+</odoo>

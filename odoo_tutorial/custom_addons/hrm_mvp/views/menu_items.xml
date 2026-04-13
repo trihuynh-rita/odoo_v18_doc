@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_hrm_root" name="HRM MVP" sequence="10"/>
+    <menuitem id="menu_hrm_employee" name="Employees" parent="menu_hrm_root" action="action_hrm_employee" sequence="10"/>
+    <menuitem id="menu_hrm_history_work" name="Work History" parent="menu_hrm_root" action="action_hrm_history_work" sequence="20"/>
+    <menuitem id="menu_hrm_rita_chatbot" name="Rita Chatbot" parent="menu_hrm_root" action="action_rita_chatbot" sequence="30"/>
+</odoo>

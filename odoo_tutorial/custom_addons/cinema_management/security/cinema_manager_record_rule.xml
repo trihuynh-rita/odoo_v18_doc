@@ -1,0 +1,59 @@
+<odoo>
+    <!--  Group Access  -->
+    <record id="cinema_management_group_category" model="ir.module.category">
+        <field name="name">Cinema Management</field>
+        <!-- Sequence controls where the App Category appears in the long list of Odoo Apps -->
+        <field name="sequence">10</field>
+    </record>
+
+    <!-- Privilege -->
+    <record id="cinema_management_privilege" model="res.groups.privilege">
+        <field name="name">Cinema Management</field>
+        <field name="category_id" ref="cinema_management_group_category"/>
+        <!-- Sequence controls the order of the dropdown options for this specific capability -->
+        <field name="sequence">5</field>
+    </record>
+
+    <!--  User  -->
+    <record id="cinema_user_group" model="res.groups">
+        <field name="name">User</field>
+        <field name="privilege_id" ref="cinema_management_privilege"/>
+    </record>
+    <!--  Manager  -->
+     <record id="cinema_manager_group" model="res.groups">
+        <field name="name">Manager</field>
+         <field name="implied_ids" eval="[(4, ref('cinema_user_group'))]"/>
+        <field name="privilege_id" ref="cinema_management_privilege"/>
+    </record>
+
+        <!--Record Rule-->
+    <record id="present_movie_showing_rules" model="ir.rule">
+        <!--Tên của Record Rule-->
+        <field name="name">Present Movie Showing</field>
+        <!--ĐỊnh nghĩa Record Rule-->
+        <field name="model_id" ref="model_movie_showing"/>
+        <!--Luật Record Rule-->
+        <field name="domain_force">[('is_past', '=', False)]</field>
+        <!--Khi nào luật được thực hiện Record Rule-->
+        <field name="perm_write" eval="True"/>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="groups" eval="[(4, ref('cinema_user_group'))]"/>
+    </record>
+
+    <!-- Multi-Company Record Rule: Theater Isolation per Company -->
+    <record id="movie_theater_company_rule" model="ir.rule">
+        <field name="name">Movie Theater: Multi-Company Access</field>
+        <field name="model_id" ref="model_movie_theater"/>
+        <field name="domain_force">[
+            ('company_id', '=', company_ids),
+        ]</field>
+        <!-- Apply to all CRUD operations -->
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+        <!-- Global rule: no group restriction means it applies to ALL users -->
+    </record>
+</odoo>

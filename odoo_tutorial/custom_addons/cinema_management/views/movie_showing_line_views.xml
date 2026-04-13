@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- ============================================================ -->
+    <!-- Movie Showing Line Views                                     -->
+    <!-- ============================================================ -->
+
+    <!-- List View -->
+    <record id="view_movie_showing_line_list" model="ir.ui.view">
+        <field name="name">movie.showing.line.list</field>
+        <field name="model">movie.showing.line</field>
+        <field name="arch" type="xml">
+            <list string="Tickets">
+                <field name="showing_id"/>
+                <field name="movie_name"/>
+                <field name="customer_id"/>
+                <field name="ticket_price"/>
+                <field name="date_start"/>
+                <field name="sale_order_id"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_movie_showing_line_form" model="ir.ui.view">
+        <field name="name">movie.showing.line.form</field>
+        <field name="model">movie.showing.line</field>
+        <field name="arch" type="xml">
+            <form string="Ticket">
+                <header>
+                    <button name="action_confirm_ticket"
+                            string="Confirm Ticket"
+                            type="object"
+                            class="oe_highlight"
+                            invisible="state != 'draft'"/>
+                    <button name="action_cancel_ticket"
+                            string="Cancel Ticket"
+                            type="object"
+                            class="btn-danger"
+                            invisible="state != 'confirmed'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Showing Info">
+                            <field name="showing_id"/>
+                            <field name="movie_name" readonly="1"/>
+                            <field name="date_start" readonly="1"/>
+                            <field name="ticket_price" readonly="1"/>
+                        </group>
+                        <group string="Customer Info">
+                            <field name="customer_id"/>
+                            <field name="sale_order_id" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_movie_showing_line" model="ir.actions.act_window">
+        <field name="name">Tickets</field>
+        <field name="res_model">movie.showing.line</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_movie_showing_line" name="Tickets"
+              parent="menu_movie_root" action="action_movie_showing_line" sequence="5"/>
+</odoo>

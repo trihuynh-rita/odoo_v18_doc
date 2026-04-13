@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- list View -->
+    <record id="view_theater_room_list" model="ir.ui.view">
+        <field name="name">theater.room.list</field>
+        <field name="model">theater.room</field>
+        <field name="arch" type="xml">
+            <list string="Theater Rooms">
+                <field name="name"/>
+                <field name="movie_theater_id"/>
+                <field name="seats_number"/>
+                <field name="has_vip_seats"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_theater_room_form" model="ir.ui.view">
+        <field name="name">theater.room.form</field>
+        <field name="model">theater.room</field>
+        <field name="arch" type="xml">
+            <form string="Theater Room">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="movie_theater_id"/>
+                        <field name="seats_number"/>
+                        <field name="has_vip_seats"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_theater_room" model="ir.actions.act_window">
+        <field name="name">Theater Rooms</field>
+        <field name="res_model">theater.room</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menu Item (next to Movie Theaters) -->
+    <menuitem id="menu_theater_room" name="Theater Rooms"
+              parent="menu_movie_root" action="action_theater_room" sequence="3"/>
+</odoo>

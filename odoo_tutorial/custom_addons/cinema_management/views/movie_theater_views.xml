@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Tree (List) View -->
+    <record id="view_movie_theater_tree" model="ir.ui.view">
+        <field name="name">movie.theater.tree</field>
+        <field name="model">movie.theater</field>
+        <field name="arch" type="xml">
+            <list string="Movie Theaters">
+                <field name="name"/>
+                <field name="address"/>
+                <field name="company_id" optional="show"/>
+                <field name="is_vip" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_movie_theater_form" model="ir.ui.view">
+        <field name="name">movie.theater.form</field>
+        <field name="model">movie.theater</field>
+        <field name="arch" type="xml">
+            <form string="Movie Theater">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="address"/>
+                        </group>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="is_vip" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Customers">
+                            <field name="customer_ids"/>
+                        </page>
+                        <page string="Available Movies">
+                            <field name="available_movie_ids"/>
+                        </page>
+                        <page string="Movie Showings">
+                            <field name="movie_showing_ids"/>
+                        </page>
+                        <page string="Theater Rooms">
+                            <field name="theater_room_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_movie_theater_search" model="ir.ui.view">
+        <field name="name">movie.theater.search</field>
+        <field name="model">movie.theater</field>
+        <field name="arch" type="xml">
+            <search string="Search Movie Theaters">
+                <field name="name"/>
+                <field name="address"/>
+                <separator/>
+                <filter string="VIP Theaters" name="vip_theaters" domain="[('is_vip', '=', True)]"/>
+                <separator/>
+                <filter string="By VIP Status" name="group_by_vip" context="{'group_by': 'is_vip'}"/>
+                <filter string="By Company" name="group_by_company" context="{'group_by': 'company_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_movie_theater" model="ir.actions.act_window">
+        <field name="name">Movie Theaters</field>
+        <field name="res_model">movie.theater</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_movie_theater_search"/>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_movie_root" name="Cinema Management" sequence="10"/>
+
+    <menuitem id="menu_movie_theater_main" name="Movie Theaters"
+              parent="menu_movie_root" action="action_movie_theater" sequence="1"/>
+</odoo>

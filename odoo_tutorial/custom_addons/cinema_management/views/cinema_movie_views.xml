@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- list View -->
+    <record id="view_cinema_movie_list" model="ir.ui.view">
+        <field name="name">cinema.movie.list</field>
+        <field name="model">cinema.movie</field>
+        <field name="arch" type="xml">
+            <list string="Movies">
+                <field name="name"/>
+                <field name="category"/>
+                <field name="rating"/>
+                <field name="average_score" widget="float"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_cinema_movie_form" model="ir.ui.view">
+        <field name="name">cinema.movie.form</field>
+        <field name="model">cinema.movie</field>
+        <field name="arch" type="xml">
+            <form string="Movie">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="category"/>
+                        <field name="rating"/>
+                        <field name="average_score" readonly="1" widget="float"/>
+                    </group>
+                    <notebook>
+                        <page string="Customer Reviews">
+                            <field name="review_ids">
+                                <list editable="bottom">
+                                    <field name="customer_id" />
+                                    <field name="score" />
+                                    <field name="review" />
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_cinema_movie" model="ir.actions.act_window">
+        <field name="name">Movies</field>
+        <field name="res_model">cinema.movie</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_cinema_movie" name="Movies"
+              parent="menu_movie_root" action="action_cinema_movie" sequence="5"/>
+</odoo>

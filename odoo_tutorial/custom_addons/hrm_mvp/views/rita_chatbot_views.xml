@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_rita_chatbot" model="ir.actions.client">
+        <field name="name">Rita Chatbot</field>
+        <field name="tag">hrm_mvp.rita_chatbot</field>
+    </record>
+</odoo>
