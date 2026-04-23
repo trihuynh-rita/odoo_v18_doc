@@ -172,7 +172,8 @@ Bước 4: Test thay đổi
 - ✅ Validate dữ liệu trước khi gửi lên server
 - ✅ Thêm error handling cho ORM calls
 - ✅ Dùng `t-on-click.stop` để prevent event bubbling
-- ✅ Organize code theo responsibility (getters, update methods, actions)
+- ✅ Control synchronization between Custom Navigation and Odoo Auto-save (Avoid UI Blocking)
+- ✅ Organize code according to responsibility (getters, update methods, actions)
 
 ### ❌ DON'Ts
 - ❌ Không modify core Odoo components trực tiếp
@@ -190,8 +191,9 @@ Bước 4: Test thay đổi
 ---
 
 ## Tiếp Theo
-- [2-owl_components.md](2-owl_components.md) - Chi tiết về OWL Components
-- [3-templates.md](3-templates.md) - XML Templates & Inheritance
-- [4-patching.md](4-patching.md) - Patching Existing Components
-- [5-registry.md](5-registry.md) - Registry System
-- [6-examples.md](6-examples.md) - Thực tế từ code proid
+- [1-owl_components.md](1-owl_components.md) - Chi tiết về OWL Components
+- [2-templates.md](2-templates.md) - XML Templates & Inheritance
+- [3-patching_system.md](3-patching_system.md) - Patching Existing Components
+- [4-registry_system.md](4-registry_system.md) - Registry System
+- [5-examples.md](5-examples.md) - Real-world examples from proid code
+- [6-ui_blocking_navigation.md](6-ui_blocking_navigation.md) - UI Blocking error during navigation

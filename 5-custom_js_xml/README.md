@@ -1,13 +1,13 @@
-# Custom JavaScript & XML cho Odoo v18
+# Custom JavaScript & XML for Odoo v18
 
-Tài liệu toàn diện hướng dẫn cách custom Odoo v18 bằng OWL Framework, JavaScript, và XML templates.
+Comprehensive documentation on customizing Odoo v18 using the OWL Framework, JavaScript, and XML templates.
 
-## 📚 Cấu Trúc Tài Liệu
+## 📚 Document Structure
 
 ### 1. **[0-overview.md](0-overview.md)**
-   - Khái quát về Odoo v18 customization
-   - Kiến trúc cơ bản
-   - Quy trình phát triển
+   - Odoo v18 customization overview
+   - Basic architecture
+   - Development workflow
    - Best practices
 
 ### 2. **[1-owl_components.md](1-owl_components.md)**
@@ -18,7 +18,7 @@ Tài liệu toàn diện hướng dẫn cách custom Odoo v18 bằng OWL Framewo
    - Props & data binding
 
 ### 3. **[2-templates.md](2-templates.md)**
-   - Template syntax và output
+   - Template syntax and output
    - Conditionals & loops (foreach)
    - Attribute binding
    - Event handling
@@ -39,11 +39,16 @@ Tài liệu toàn diện hướng dẫn cách custom Odoo v18 bằng OWL Framewo
    - Practical examples
 
 ### 6. **[5-examples.md](5-examples.md)**
-   - Real-world examples từ proid
+   - Real-world examples from proid
    - Advanced filter mega menu
    - Row actions dropdown
    - Custom pagination
    - Complete working code
+
+### 7. **[6-ui_blocking_navigation.md](6-ui_blocking_navigation.md)**
+   - Handling UI Blocking errors during navigation
+   - Race conditions between Auto-save and Custom Navigation
+   - Patching FormController to force unblock UI
 
 ---
 
@@ -99,29 +104,29 @@ registry.category("components").add("MyComponent", MyComponent);
 
 ## 📖 Common Tasks
 
-### Tạo Component Mới
-1. Tạo file `.js` → Tạo file `.xml` → Đăng ký với registry
-2. Xem [1-owl_components.md](1-owl_components.md)
+### Create a New Component
+1. Create `.js` file → Create `.xml` file → Register with registry
+2. See [1-owl_components.md](1-owl_components.md)
 
-### Modify Existing Component
-1. Dùng `patch()` để extend component
-2. Xem [3-patching_system.md](3-patching_system.md)
+### Modify an Existing Component
+1. Use `patch()` to extend the component
+2. See [3-patching_system.md](3-patching_system.md)
 
-### Thêm Custom Field Widget
-1. Tạo Component + Template
-2. Đăng ký với registry `fields` category
-3. Xem [5-examples.md](5-examples.md#example-2-row-actions-field-widget)
+### Add a Custom Field Widget
+1. Create Component + Template
+2. Register with `fields` category in registry
+3. See [5-examples.md](5-examples.md#example-2-row-actions-field-widget)
 
-### Thêm Custom View
+### Add a Custom View
 1. Extend ListRenderer/FormRenderer
-2. Tạo custom template
-3. Đăng ký với registry `views` category
-4. Xem [5-examples.md](5-examples.md#example-3-custom-list-renderer)
+2. Create custom template
+3. Register with `views` category in registry
+4. See [5-examples.md](5-examples.md#example-3-custom-list-renderer)
 
-### Modify Template (Inherit)
-1. Dùng `<t t-inherit>` trong `.xml`
-2. Dùng `<xpath>` để target elements
-3. Xem [2-templates.md](2-templates.md#🔗-template-inheritance-t-inherit)
+### Modify a Template (Inherit)
+1. Use `<t t-inherit>` in `.xml`
+2. Use `<xpath>` to target elements
+3. See [2-templates.md](2-templates.md#🔗-template-inheritance-t-inherit)
 
 ---
 
@@ -146,7 +151,7 @@ registry.category("components").add("MyComponent", MyComponent);
 ### Registry
 - Central registration system
 - Categories: components, fields, views, actions
-- Enable plugin-like architecture
+- Enables plugin-like architecture
 
 ---
 
@@ -189,7 +194,7 @@ try {
 
 ### Browser Console
 ```javascript
-// Check if component registered
+// Check if component is registered
 odoo.web.registry.category("components").contains("MyComponent");
 
 // Get component
